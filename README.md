@@ -1,4 +1,4 @@
-# Formulaik react-native elements
+# Formulaik react-native elements components library
 
 [![NPM](https://img.shields.io/npm/v/@formulaik-community/formulaik-react-native-elements.svg)](https://www.npmjs.com/package/formulaik-react-native-elements) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
