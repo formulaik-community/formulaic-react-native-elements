@@ -1,11 +1,8 @@
 import React from 'react'
+import { Text } from 'react-native'
 
 export default (props) => {
-  const {
-    item: { label, id, params } } = props
-
-  return <div>
-    {params.content}
-  </div>
+  const { item: { params } } = props
+  return <Text>{params.content}</Text>
 }
 

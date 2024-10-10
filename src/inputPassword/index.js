@@ -93,6 +93,7 @@ export default (props) => {
 
 
   return <Input
+    secureTextEntry={true}
     variant={variant}
     disabled={disabled}
     value={innerValue}
