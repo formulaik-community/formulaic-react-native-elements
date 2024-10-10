@@ -1,117 +1,159 @@
-# formulaik-mui
+# Formulaik react-native elements
 
-> Formulaik-mui components library.
+[![NPM](https://img.shields.io/npm/v/@formulaik-community/formulaik-react-native-elements.svg)](https://www.npmjs.com/package/formulaik-react-native-elements) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-[![NPM](https://img.shields.io/npm/v/formulaik-mui.svg)](https://www.npmjs.com/package/formulaik-mui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+Visit [The Formulaik project](https://formulaik-core.github.io/documentation/) to get started with Formulaik.
+
+This a Formulaik components library built on top of Material UI.
+Formulaik components are a set of inputs compatible with a Formulaik engine.
+In this case, the Formulaik-Mui library is made for the [Formulaik React engine](https://github.com/formulaik-core/react).
+
+![](https://formulaik-core.github.io/documentation/img/icon_xs.svg)
+
+> [The Formulaik project](https://formulaik-core.github.io/documentation/) is an open source initiative for defining cross-platform forms, enabling reusable components in a JSON based declarative approach. Formulaik aims to simplify form building across various front-end frameworks. Formulaik defines a protocol for defining form inputs as a sole source of truth (data type, behaviour, validation) in json, which is interpreted by a platform-specific formulaik engine.
 
 ## Install
 
+1. Install the React-native formulaik engine
+
 ```bash
-npm install --save formulaik-mui
+npm install @formulaik/react-native
+```
+
+2. Install the components library
+
+```bash
+npm install @formulaik-community/formulaik-react-native-elements
 ```
 
 ## Usage
 
-1. Install formulaik, yup for validation and a component library
-
-```bash
-npm install @formulaik/react yup @formulaik-community/react-native-paper
-```
+Create your inputs and create the form using formulaik:
 
 ```jsx
-import Formulaik from '@formulaik/react'
-import FormulaikMui from '@formulaik-community/react-native-paper'
-import * as Yup from 'yup'
-```
+import Formulaik from '@formulaik/react-native'
+import FormulaikPaper from '@formulaik-community/formulaik-react-native-elements'
+import { Text } from 'react-native'
 
-2. Define inputs
-
-```jsx
 const inputs = [
-  {
-    type: 'input',
-    schema: 'email',
-    id: 'email',
-    label: 'Email',
-    params: {
-      type: 'email',
-      placeholder: "email@domain.com"
-    }
-  },
-  {
-    type: 'inputPassword',
-    schema: 'password',
-    label: 'Password',
-    id: 'password',
-    params: {
-      type: 'password',
-      autoComplete: "current-password",
-      placeholder: "xxxx-xxxx-xxxx"
-    }
-  },
-  {
-    type: 'submit',
-    params: {
-      text: 'Continue'
-    }
-  },
+ {
+      component: 'input',
+      id: 'email',
+      label: 'Email',
+      type: "string",
+      params: {
+        type: 'email',
+        placeholder: "email@domain.com"
+      },
+      validations: [
+        {
+          kind: "format",
+          value: "email",
+          message: 'Invalid email format',
+        },
+        {
+          kind: "required",
+          value: true,
+          message: "This field can't be blank",
+        },
+      ],
+    },
+    {
+      component: 'inputPassword',
+      label: 'Password',
+      id: 'password',
+      type: "string",
+      params: {
+        autoComplete: "current-password",
+        placeholder: "xxxx-xxxx-xxxx"
+      },
+      validations: [
+        {
+          kind: "required",
+          value: true,
+          message: "This field can't be blank",
+        },
+        {
+          kind: "matches",
+          value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+          message: 'Invalid password, must contain at least 8 characters and at most 18 characters',
+        },
+      ]
+    },
+    {
+      component: 'submit',
+      id: 'submit',
+      params: {
+        text: 'Continue'
+      }
+    },
 ]
-```
 
-3. Provide initial values
-
-```jsx
-const initialValues = {
-    email: cookies.get('email'),
-}
-```
-
-4. Define validation
-
-```jsx
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Invalid email format')
-    .required("This field can't be blank"),
-  password: Yup.string()
-    .required("This field can't be blank")
-    .min(7, 'Must contain at least 8 characters')
-    .max(18, 'Must contain at most 18 characters')
-    .matches(/[a-zA-Z]/, 'Password can only contain Latin letters.')
-})
-```
-
-5. Render forms and handle submit
-
-```jsx
 export default (props) => {
-  const onSubmit = async (values, { setSubmitting }) => {
+ const onSubmit = async (values) => {
+    const { email, password } = values
     try {
-      const { email, password } = values
-      //... do login
-      setError(null)
-    } catch (e) {
-      console.log(e)
-      setError(e)
+      await myapi.submit({ email, password })
     }
-
-    setSubmitting(false)
+    catch(e) {
+      throw (new Error('Could not sign in: ', e.message))
+    }
+    return { message: t("Email validated") }
   }
 
-  return <div>
-      <h1>Login</h1>
+  const values = {
+      email: cookies.get('email'),
+  }
+
+  return <>
+      <Text>Login</Text>
       <Formulaik
-        componentsLibraries={[FormulaikLocal,]}
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        components={[FormulaikPaper]}
+        values={values}
         inputs={inputs}
         onSubmit={onSubmit}
-        error={error} />
-    </div>
+         />
+    </>
 }
 ```
+
+## Components
+
+| Component Key     | Description              | Parameters |
+| ------------------- | -------------------------- | ------------ |
+| `input`           | Text input               | #TODO      |
+| `select`          | Choice component         | #TODO      |
+| `submit`          | Formulaik submit button  | #TODO      |
+| `dateTimePicker`  | Date time picker         | #TODO      |
+| `checkbox`        | Checkbox                 | #TODO      |
+| `textArea`        | Autogrowing text area    | #TODO      |
+| `dateRangePicker` | Date range picker        | #TODO      |
+| `autocomplete`    | Autocomplete input field | #TODO      |
+| `radioGroup`      | Radio group              | #TODO      |
+| `autocomplete`    | Autocomplete input field | #TODO      |
+| `button`          | Button                   | #TODO      |
+| `buttonGroup`     | Button group             | #TODO      |
+| `rating`          | Rating                   | #TODO      |
+| `switch`          | Switch                   | #TODO      |
+| `fileUpload`      | File uploader            | #TODO      |
+
+## Versionning
+
+This repository follows the semantic branching model.
+
+## Contributing
+[<img src="https://github.com/adoucoure.png" width="60px;"/><br /><sub><ahref="https://github.com/adoucoure">Aboubacar Doucouré</ahref=></sub>](https://adoucoure.com/formulaik)
+This project follows the [all-contributors specification](https://github.com/all-contributors/all-contributors). Contributions of any kind welcome!
+Please [contact me](https://adoucoure.com/contact) if you want to contribute to the core frameworks or add a components library.
 
 
 ## License
 
 MIT © [yelounak](https://github.com/yelounak)
+
+## References
+
+- [The Formulaik project documentation](https://formulaik-core.github.io/documentation/)
+- [Getting started with Formulaik React 🚀](https://formulaik-core.github.io/documentation/docs/next/gettingstarted/react/installation)
+- [Contribute to Formulaik](https://formulaik-core.github.io/documentation/docs/next/contributing)
+- [Forumaik Blog](https://adoucoure.com/formulaik)

@@ -1,6 +1,6 @@
 import React from 'react'
 import IconButton from '@mui/material/IconButton'
-
+import { View } from 'react-native'
 import { Trash, ChevronLeft, ChevronRight } from 'react-feather'
 
 export default (props) => {
@@ -23,7 +23,7 @@ export default (props) => {
     error
   } = props
 
-  return <div className={`
+  return <View className={`
           border-warmGray-200
           hover:border-warmGray-300
           transition-all
@@ -77,5 +77,5 @@ export default (props) => {
     <div className='px-1'>
       {children}
     </div>
-  </div>
+  </View>
 }
