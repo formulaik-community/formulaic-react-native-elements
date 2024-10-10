@@ -32,7 +32,7 @@ Create your inputs and create the form using formulaik:
 
 ```jsx
 import Formulaik from '@formulaik/react-native'
-import FormulaikPaper from '@formulaik-community/formulaik-react-native-elements'
+import FormulaikElements from '@formulaik-community/formulaik-react-native-elements'
 import { Text } from 'react-native'
 
 const inputs = [
@@ -108,7 +108,7 @@ export default (props) => {
   return <>
       <Text>Login</Text>
       <Formulaik
-        components={[FormulaikPaper]}
+        components={[FormulaikElements]}
         values={values}
         inputs={inputs}
         onSubmit={onSubmit}
@@ -122,20 +122,9 @@ export default (props) => {
 | Component Key     | Description              | Parameters |
 | ------------------- | -------------------------- | ------------ |
 | `input`           | Text input               | #TODO      |
-| `select`          | Choice component         | #TODO      |
+| `inputPassword`   | Text input               | #TODO      |
 | `submit`          | Formulaik submit button  | #TODO      |
-| `dateTimePicker`  | Date time picker         | #TODO      |
-| `checkbox`        | Checkbox                 | #TODO      |
-| `textArea`        | Autogrowing text area    | #TODO      |
-| `dateRangePicker` | Date range picker        | #TODO      |
-| `autocomplete`    | Autocomplete input field | #TODO      |
-| `radioGroup`      | Radio group              | #TODO      |
-| `autocomplete`    | Autocomplete input field | #TODO      |
 | `button`          | Button                   | #TODO      |
-| `buttonGroup`     | Button group             | #TODO      |
-| `rating`          | Rating                   | #TODO      |
-| `switch`          | Switch                   | #TODO      |
-| `fileUpload`      | File uploader            | #TODO      |
 
 ## Versionning
 
