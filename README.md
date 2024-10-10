@@ -124,7 +124,6 @@ export default (props) => {
 | `input`           | Text input               | #TODO      |
 | `inputPassword`   | Text input               | #TODO      |
 | `submit`          | Formulaik submit button  | #TODO      |
-| `button`          | Button                   | #TODO      |
 
 ## Versionning
 
